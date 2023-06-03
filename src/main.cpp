@@ -23,12 +23,10 @@ int main() {
 
     while (true) {
         cap >> frame;
-
         cv::Mat hsv;
         cvtColor(frame, hsv, cv::COLOR_BGR2HSV);
-
-        cv::Scalar lower_banana(0, 132, 238);
-        cv::Scalar upper_banana(115, 255, 255);
+        cv::Scalar lower_banana(0 , 125 , 141 );
+        cv::Scalar upper_banana(49, 255, 255);
 
         cv::Mat banana;
         cv::inRange(hsv, lower_banana, upper_banana, banana);
@@ -44,14 +42,21 @@ int main() {
                 maxAreaIdx_banana = i;
             }
 
-            if (area_banana > 500 && contours_banana.size() > 0 && !banana_detected) {
+            if (area_banana > 500 && contours_banana.size() > 0) {
                 cv::Rect boundingRect_banana = cv::boundingRect(contours_banana[maxAreaIdx_banana]);
                 cv::rectangle(frame, boundingRect_banana, cv::Scalar(0, 255, 255), 4);
                 cv::putText(frame, "banana", cv::Point(boundingRect_banana.x, boundingRect_banana.y), cv::FONT_HERSHEY_DUPLEX, 2, cv::Scalar(0, 255, 255), 5);
-                banana_counter++;
+            }
+
+            if (area_banana > 500 && contours_banana.size() > 0 && !banana_detected) {
+                banana_counter += 1;
                 banana_detected = true; 
             }
+            
         }
+ if(contours_banana.size() == 0){
+    banana_detected = false;
+    }
 
  cv::Scalar lower_strawberry(165 , 59 , 194);
  cv::Scalar upper_strawberry(199 , 255 , 255);
@@ -75,10 +80,17 @@ int main() {
             cv::Rect boundingRect_strawberry = cv::boundingRect(contours_strawberry[maxAreaIdx_strawberry]);
             cv::rectangle(frame, boundingRect_strawberry, cv::Scalar(0, 0, 255), 4);
             cv::putText(frame , "strawberry" , cv::Point(boundingRect_strawberry.x, boundingRect_strawberry.y), cv::FONT_HERSHEY_DUPLEX, 2, cv::Scalar(0,0,255),5);
-            strawberry_counter+=1;
+        }
+
+        if (area > 500 && contours_strawberry.size() > 0 && !strawberry_detected) {
+            strawberry_counter += 1;
+            strawberry_detected = true; 
         }
         }
-    
+ if(contours_strawberry.size() == 0){
+    strawberry_detected = false;
+    }
+
  cv::Scalar lower_grape(124 , 58 , 124);
  cv::Scalar upper_grape(171 , 158 , 255);
 
@@ -101,8 +113,17 @@ int main() {
             cv::Rect boundingRect_grape = cv::boundingRect(contours_grape[maxAreaIdx_grape]);
             cv::rectangle(frame, boundingRect_grape, cv::Scalar(0, 0, 255), 4);
             cv::putText(frame , "grape" , cv::Point(boundingRect_grape.x, boundingRect_grape.y), cv::FONT_HERSHEY_DUPLEX, 2, cv::Scalar(0,0,255),5);
-            grape_counter+=1;
         }
+
+
+        if (area > 500 && contours_grape.size() > 0 && !grape_detected) {
+            grape_counter += 1;
+            grape_detected = true; 
+        }
+ if(contours_grape.size() == 0){
+    grape_detected = false;
+    }
+
         }
  int total = banana_counter + strawberry_counter + grape_counter;
  std::cout << "----------" << std::endl;
@@ -113,7 +134,7 @@ int main() {
  std::cout << "----------" << std::endl;
 
  cv::imshow("img",frame);
-//  cv::imshow("banana",banana);
+ cv::imshow("banana",banana);
 //  cv::imshow("strawberry",strawberry);
 //  cv::imshow("grape",grape);
  cv::waitKey(1);
