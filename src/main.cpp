@@ -135,8 +135,8 @@ int main() {
 
  cv::imshow("img",frame);
  cv::imshow("banana",banana);
-//  cv::imshow("strawberry",strawberry);
-//  cv::imshow("grape",grape);
+ cv::imshow("strawberry",strawberry);
+ cv::imshow("grape",grape);
  cv::waitKey(1);
 }
 }
