@@ -7,7 +7,7 @@ def on_trackbar(val):
 cap = cv2.VideoCapture(0)
 
 cv2.namedWindow('Trackbars')
-
+#
 h_min, s_min, v_min = 0, 0, 0
 h_max, s_max, v_max = 255, 255, 255
 
